@@ -1,13 +1,8 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class Board extends JPanel implements KeyListener {
     
@@ -15,6 +10,8 @@ public class Board extends JPanel implements KeyListener {
 
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
+    
+    private final int MOVESPEED = 10;
 
     public Board() {
         super();
@@ -28,10 +25,9 @@ public class Board extends JPanel implements KeyListener {
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 200));
         
-        
         // Rand ist blau
         Border border = this.getBorder();
-        Border margin = new LineBorder(Color.BLUE, 4);
+        Border margin = new LineBorder(Color.BLUE, 2);
         this.setBorder(new CompoundBorder(border, margin));
         
     }
@@ -48,6 +44,14 @@ public class Board extends JPanel implements KeyListener {
     }
     
     private void move(Circle p, int x, int y) {
+        if (p.getX() + x < 0 || p.getX() + x > WIDTH-MOVESPEED) {
+            System.out.println("err rand!");
+            return;
+        }
+        if (p.getY() + y < 0 || p.getY() + y > HEIGHT-MOVESPEED) {
+            System.out.println("err rand!");
+            return;
+        }
         p.setX(p.getX() + x);
         p.setY(p.getY() + y);
         repaint();
@@ -57,19 +61,19 @@ public class Board extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                move(blue, -2,0);
+                move(blue, -MOVESPEED,0);
                 System.out.println("x: " + blue.getX() + "   y: " + blue.getY());
                 break;
             case KeyEvent.VK_RIGHT:
-                move(blue, 2,0);
+                move(blue, MOVESPEED,0);
                 System.out.println("x: " + blue.getX() + "   y: " + blue.getY());
                 break;
             case KeyEvent.VK_UP:
-                move(blue, 0,-2);
+                move(blue, 0,-MOVESPEED);
                 System.out.println("x: " + blue.getX() + "   y: " + blue.getY());
                 break;
             case KeyEvent.VK_DOWN:
-                move(blue, 0,2);
+                move(blue, 0,MOVESPEED);
                 System.out.println("x: " + blue.getX() + "   y: " + blue.getY());
                 break;
         }
