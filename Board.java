@@ -11,9 +11,8 @@ public class Board extends JPanel {
         super();
 
         setBackground(Color.WHITE);
-
+        
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setDoubleBuffered(true);
     }
-
 }
