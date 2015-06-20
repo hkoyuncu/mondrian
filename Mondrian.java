@@ -24,5 +24,4 @@ public class Mondrian extends JFrame {
             }
         });
     }
-    
 }
