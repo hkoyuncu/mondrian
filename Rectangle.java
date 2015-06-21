@@ -23,5 +23,7 @@ public class Rectangle {
     }
 
     public void setColor(Color c) { this.color = c; }
+    
+    public Color getColor() { return color; }
 
 }
