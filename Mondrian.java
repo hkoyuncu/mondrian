@@ -1,9 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
-// testing git
 
 public class Mondrian extends JFrame {
-
+    
     public Mondrian() {
         add(new Board());
 
