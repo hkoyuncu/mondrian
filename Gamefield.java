@@ -40,23 +40,26 @@ public class Gamefield {
                 g.fillRect(t.getX(), t.getY(), t.getW(), t.getH());
             }
         }
-        // Rand faetben
+        // Rand faerben
         fillBorder(g);
     }
     
+    // ab hier weitermachen
+    // draw in jeweilige Figur Klassen auslagern
     public void update(Graphics g) {
         for (Rectangle[] ra : field) {
             for (Rectangle r : ra) {
                 g.setColor(r.getColor());
-                g.fillRect(r.getX(), r.getY(), r.getW(), r.getH());
+                //g.fillRect(r.getX(), r.getY(), r.getW(), r.getH());
             }
         }
-        
+
         g.setColor(blue.getColor());
         g.fillOval(blue.getX(), blue.getY(), blue.getSize(), blue.getSize());
         
         g.setColor(red.getColor());
         g.fillOval(red.getX(), red.getY(), red.getSize(), red.getSize());
+
     }
     
     private void fillBorder(Graphics g) {

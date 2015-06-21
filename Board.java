@@ -17,12 +17,10 @@ public class Board extends JPanel implements KeyListener {
         
         feld = new Gamefield();
         feld.addPlayer(new Circle(50, 50, 10, Color.BLUE));
-        feld.addPlayer(new Circle(100, 100, 20, Color.RED));
+        feld.addPlayer(new Circle(100, 100, 40, Color.red));
         
 
         addKeyListener(this);
-        
-        
         
         
         setFocusable(true);
