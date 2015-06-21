@@ -1,74 +1,34 @@
 
 import java.awt.*;
 
-public class Rectangle implements Shapes {
+public class Rectangle {
     
     private int x;
     private int y;
     private int w;
     private int h;
-    private Color c;
+    private Color color;
     
     public Rectangle(int x, int y, int w, int h, Color c) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        this.c = c;
+        this.color = c;
     }
 
-    @Override
-    public void move(int x, int y) {
-        
-    }
+    public int getX() { return x; }
 
-    @Override
-    public void draw(Graphics2D g, Point p) {
-       
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
-    public Color getColor() {
-        return c;   
-    }
+    public int getY() { return y; }
     
-    public void setColor(Color c) {
-        this.c = c;
-    }
+    public int getW() { return w; }
 
-    public int getW() {
-        return w;
-    }
+    public int getH() { return h; }
 
-    public void setW(int w) {
-        this.w = w;
-    }
+    public Color getColor() { return color; }
+    
+    public void setColor(Color c) { this.color = c; }
 
-    public int getH() {
-        return h;
-    }
 
-    public void setH(int h) {
-        this.h = h;
-    }
+   
 }
