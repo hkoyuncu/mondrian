@@ -16,19 +16,12 @@ public class Rectangle {
         this.h = h;
         this.color = c;
     }
-
-    public int getX() { return x; }
-
-    public int getY() { return y; }
     
-    public int getW() { return w; }
+    public void drawRectanbgle(Graphics g) {
+        g.setColor(color);
+        g.fillRect(x, y, w, h);
+    }
 
-    public int getH() { return h; }
-
-    public Color getColor() { return color; }
-    
     public void setColor(Color c) { this.color = c; }
 
-
-   
 }

@@ -1,18 +1,23 @@
 
-import java.awt.Color;
+import java.awt.*;
 
 public class Circle {
     
     private int x;
     private int y;
     private final int size;
-    private Color c;
+    private Color color;
     
     public Circle(int x, int y, int size, Color c) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.c = c;
+        this.color = c;
+    }
+    
+    public void drawCircle(Graphics g) {
+        g.setColor(color);
+        g.fillOval(x, y, size, size);
     }
 
     public int getX() { return x; }
@@ -23,7 +28,5 @@ public class Circle {
 
     public void setY(int y) { this.y = y; }
 
-    public Color getColor() { return c; }
-
-    public int getSize() { return size; }
+    public Color getColor() { return color; }
 }

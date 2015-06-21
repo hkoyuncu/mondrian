@@ -12,7 +12,7 @@ public class Mondrian extends JFrame {
         setTitle("Mondrian");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-   }
+    }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
