@@ -59,7 +59,11 @@ public class Board extends JPanel {
             }
 
             if (feld.checkWin()) {
-                JOptionPane.showMessageDialog(null, "Gratulation!\nSie haben gewonnen!");
+                JOptionPane.showMessageDialog(null, "Sie haben das Spiel gewonnen!", "Gratulation", JOptionPane.INFORMATION_MESSAGE);
+                control = false;
+            }
+            if (feld.checkCollision()) {
+                JOptionPane.showMessageDialog(null, "Sie haben das Spiel verloren!", "Verloren", JOptionPane.INFORMATION_MESSAGE);
                 control = false;
             }
         }

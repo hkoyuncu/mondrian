@@ -72,7 +72,6 @@ public class Gamefield {
  
     }
     
-    
     public boolean checkWin() {
         int count = 0;
         final int max = 320;
@@ -86,5 +85,7 @@ public class Gamefield {
         return count >= max;
     }
     
-    
+    public boolean checkCollision() {
+        return blue.getX() == red.getX() && blue.getY() == red.getY();
+    }
 }
