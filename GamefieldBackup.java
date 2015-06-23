@@ -2,7 +2,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Gamefield {
+public class GamefieldBackup {
     
     private Circle blue, red;
     private Rectangle[][] field;
@@ -11,7 +11,7 @@ public class Gamefield {
     private ArrayList<Rectangle> area;
     private boolean moving;
     
-    public Gamefield() {
+    public GamefieldBackup() {
         field = new Rectangle[20][20];
         area = new ArrayList<Rectangle>();
         first = false;
