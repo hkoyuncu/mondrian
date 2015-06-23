@@ -7,6 +7,7 @@ public class Rectangle {
     private int y;
     private int w;
     private int h;
+    private int present;
     private Color color;
     
     public Rectangle(int x, int y, int w, int h, Color c) {
@@ -14,6 +15,7 @@ public class Rectangle {
         this.y = y;
         this.w = w;
         this.h = h;
+        this.present = 0;
         this.color = c;
     }
     
@@ -26,4 +28,15 @@ public class Rectangle {
     
     public Color getColor() { return color; }
 
+    public int getPresent() { return present; }
+
+    public void setPresent(int present) { this.present = present; }
+    
+    public int getX() { return x; }
+
+    public int getY() { return y; }
+    
+    @Override
+    public String toString() { return "X: " + x + "  Y: " + y; }
+ 
 }

@@ -20,7 +20,7 @@ public class Board extends JPanel {
         control = true;
         
         feld = new Gamefield();
-        feld.addPlayer(new Circle(20, 20, 10, Color.ORANGE));
+        feld.addPlayer(new Circle(0, 0, 10, Color.ORANGE));
         feld.addPlayer(new Circle(90, 90, 10, Color.red));
         
         addKeyListener(new KeyHandler());
