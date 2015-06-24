@@ -1,6 +1,8 @@
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Gamefield {
     
@@ -41,6 +43,7 @@ public class Gamefield {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j <field[i].length; j++) {            
                 field[i][j] = new Rectangle(i*mult, j*mult, 10, 10, Color.WHITE);
+                field[i][j].setPresent(0);
             }
         }
         fillBorder();
@@ -73,146 +76,137 @@ public class Gamefield {
             return;
         }
         
-        lel(x,y);
-        
-        if (field[blue.getX()/10][blue.getY()/10].getColor() != Color.YELLOW) {
-            field[blue.getX()/10 ][blue.getY()/10].setColor(Color.BLUE);
-        }
         
         if (field[blue.getX()/10 + x/10][blue.getY()/10 + y/10].getColor() != Color.YELLOW) {
+            field[blue.getX()/10 ][blue.getY()/10].setColor(Color.BLUE);
             blue.setX(blue.getX() + x);
             blue.setY(blue.getY() + y);
+            moveControll(x,y);
         }
-
+        
     }
     
-    
-    private void lel(int x, int y) {
-        if (field[(blue.getX() / 10) + x / 10][(blue.getY() / 10) + y / 10].getPresent() == 1) {
+    // nochmals checken
+    private void moveControll(int x, int y) {
+        if (field[blue.getX() / 10][blue.getY() / 10].getPresent() == 1) {
             moving = false;
-            area.add(field[blue.getX() / 10 + x / 10][blue.getY() / 10 + y / 10]);
+            area.add(field[ (blue.getX()/10) ][(blue.getY()/10)  ]);
             fillArea();
             area.clear();
         }
-        if (field[blue.getX()/10 + x/10][blue.getY()/10 + y/10].getPresent() == 0) {
+        if (field[blue.getX() / 10][blue.getY() / 10].getPresent() == 0) {
             moving = true;
         }
-        if (field[blue.getX() / 10][blue.getY() / 10].getPresent() == 0 && moving) {
-            area.add(field[blue.getX() / 10][blue.getY() / 10]);
+        if (field[(blue.getX()/10) - (x/10)][(blue.getY()/10) - (y/10)].getPresent() == 0 && moving) {
+            area.add(field[(blue.getX()/10) - (x/10)][(blue.getY()/10) - (y/10)]);
         }
-
         System.out.println("P: " + field[blue.getX() / 10][blue.getY() / 10].getPresent()  + "   moving: " + moving);
     }
     
-
+    // ist ok
     private void fillArea() {
-        if (area.isEmpty()) return;
+        if (area.isEmpty() || area.size() < 2) return;
+        //print(area);
         area = optimize(area);
-        
+        //System.out.println("-----------------");
+        //print(area);
         Rectangle start = area.get(0);
-        Rectangle end = area.get(area.size()-1);
-        
-        // links von roten punkt
-        if (start.getX() < red.getX()) {
-            System.out.println("1");
-            // links oberhablb von red
-            if (start.getY() < red.getY()) {
-                System.out.println("2");
-                if (end.getX() < red.getX()) {
-                    System.out.println("3");
-                    for (int i = 1; i < start.getX()/10; i++) {
-                        for (int j = 1; j < end.getY()/10 ; j++) {
-                            field[i][j].setColor(Color.YELLOW);
-                            field[i][j].setPresent(1);
-                        }
-                    }
-                }
-                if (end.getX() > red.getX()) {
-                    System.out.println("4");
-                    for (int i = start.getX()/10 ; i < end.getX()/10; i++) {
-                        for (int j = 1; j < end.getY()/10; j++) {
-                            field[i][j].setColor(Color.YELLOW);
-                            field[i][j].setPresent(1);
-                        }
-                    }
-                } 
-            }
-            // linkls unterhalb von red
-            if (start.getY() > red.getY()) {
-                System.out.println("5");
-                if (end.getX() < red.getX()) {
-                    for (int i = start.getX()/10 ; i < end.getX()/10; i++) {
-                        for (int j = 1; j < end.getY()/10; j++) {
-                            field[i][j].setColor(Color.YELLOW);
-                            field[i][j].setPresent(1);
-                        }
-                    }
-                }
-                
-                if (end.getX() > red.getX()) {
-                    System.out.println("6");
-                    for (int i = start.getX()/10 - 1; i < end.getX()/10; i++) {
-                        for (int j = start.getY()/10 + 1; j < 19; j++) {
-                            field[i][j].setColor(Color.YELLOW);
-                            field[i][j].setPresent(1);
-                        }
-                    }
-                }
-            }
-        }
-        // rechts vom roten punkt
-        if (start.getX() > red.getY()) {
-            System.out.println("7");
-            if (start.getY() < red.getY()) {
-                System.out.println("8");
-                for (int i = start.getX()/10; i < 19; i++) {
-                        for (int j = start.getY()/10; j < end.getY()/10; j++) {
-                            field[i][j].setColor(Color.YELLOW);
-                            field[i][j].setPresent(1);
-                        }
-                    }
-            }
-            if (start.getY() > red.getY()) {
-                System.out.println("9");
-                for (int i = start.getX()/10; i < end.getX()/10; i++) {
-                    for (int j = start.getY()/10; j < 19; j++) {
-                        field[i][j].setColor(Color.YELLOW);
-                        field[i][j].setPresent(1);
-                    }
-                }
-            }
-        }
-        setPresent();
-    }
-    
-    private void setPresent() {
-        for (int i = 1 ;i < field.length; i++) {
-            for (int j = 1; j < field[i].length; j++) {
-                if (field[i][j].getColor() == Color.BLUE) {
-                    field[i][j].setPresent(1);
-                }
-            }
-        }
-    }
-    
-    
-    private ArrayList<Rectangle> optimize(ArrayList<Rectangle> a) {
+        Rectangle end = area.get(area.size() - 1);
 
+        // nach rechts gegangen
+        if (start.getY() == end.getY()) {
+            //System.out.println("1");
+            // check unter bzw ober halb des roten punktes
+            if (start.getY() < red.getY()) {
+                //System.out.println("2");
+                for (int x = start.getX()/10; x < end.getX()/10; x++) {
+                    for (int y = 1; y < end.getY()/10; y++) {
+                        field[x][y].setColor(Color.YELLOW);
+                        field[x][y].setPresent(1);
+                    }
+                }
+                setPresent(area);
+                area.clear();
+                return;
+            }
+            // unterhalb vom roten punkt
+            if (start.getY() > red.getY()) {
+                //System.out.println("3");
+                for (int x = start.getX()/10; x < end.getX()/10; x++) {
+                    for (int y = start.getY()/10 + 1; y < 19; y++) {
+                        field[x][y].setColor(Color.YELLOW);
+                        field[x][y].setPresent(1);
+                    }
+                }
+                setPresent(area);
+                area.clear();
+                return;
+            }
+        }
+        // nach unten gegangen
+        if (start.getX() == end.getX()) {
+            //System.out.println("4");
+            // check links bzw rechts vom roten punkt
+            if (start.getX() < red.getX()) {
+                //System.out.println("5");
+                for (int x = 1; x < end.getX()/10; x++) {
+                    for (int y = start.getY()/10; y < end.getY()/10; y++) {
+                        field[x][y].setColor(Color.YELLOW);
+                        field[x][y].setPresent(1);
+                    }
+                }
+                setPresent(area);
+                area.clear();
+                return;
+            }
+            // rechts vom roten punkt
+            if (start.getX() > red.getX()) {
+                //System.out.println("6");
+                for (int x = start.getX()/10 + 1; x < 19; x++) {
+                    for (int y = start.getY()/10; y < end.getY()/10; y++) {
+                        field[x][y].setColor(Color.YELLOW);
+                        field[x][y].setPresent(1);
+                    }
+                }
+                setPresent(area);
+                area.clear();
+            }
+        }
+    }
+    
+    private void print(ArrayList<Rectangle> a) {
+        for (Rectangle x : a) {
+            System.out.println(x);
+        }
+    }
+    
+    private void setPresent(ArrayList<Rectangle> rec) {
+        for (Rectangle x : rec) {
+            x.setPresent(1);
+        }
+    }
+
+    // ist ok
+    private ArrayList<Rectangle> optimize(ArrayList<Rectangle> a) {
         Rectangle start = a.get(0);
         Rectangle end = a.get(a.size() - 1);
-        
-        if (start.getX() > end.getX() || start.getY() > end.getY()) {
-            
+        if (start.getY() > end.getY()) {
             ArrayList<Rectangle> opt = new ArrayList<Rectangle>();
-            
             for (int i = a.size() - 1; i >= 0; i--) {
+                a.get(i).setY(a.get(i).getY() + 10);
                 opt.add(a.get(i));
             }
-
+            return opt;
+        }
+        if (start.getX() > end.getX()) {
+            ArrayList<Rectangle> opt = new ArrayList<Rectangle>();
+            for (int i = a.size() - 1; i >= 0; i--) {
+                a.get(i).setX(a.get(i).getX() + 10);
+                opt.add(a.get(i));
+            }
             return opt;
         }
         else {
-
             return a;
         }
     }
