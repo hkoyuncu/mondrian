@@ -92,7 +92,45 @@ public class Gamefield {
     }
     
     public void moveBlueTimer(final int blueMoveSpeed) {
+        int x = (int) (Math.random() * 3);
+        int y = (int) (Math.random() * 3);
         
+        if (x == 0 && y == 0) {
+            blue.move(0, 0);
+        }
+        if (x == 0 && y == 1) {
+            if (((blue.getY() / 10) + (blueMoveSpeed / 10)) > 19) return;
+            Rectangle toPos = field[blue.getX() / 10][blue.getY() / 10 + blueMoveSpeed / 10];
+            if (toPos.getColor() != Color.YELLOW) {
+                field[blue.getX()/10][blue.getY()/10].setColor(Color.BLUE);
+                blue.move(0, blueMoveSpeed);
+                
+            }
+        }
+        if (x == 0 && y == 2) {
+            if (((blue.getY() / 10) - (blueMoveSpeed / 10)) < 0) return;
+            Rectangle toPos = field[blue.getX() / 10][blue.getY() / 10 - blueMoveSpeed / 10];
+            if (toPos.getColor() != Color.YELLOW) {
+                field[blue.getX()/10][blue.getY()/10].setColor(Color.BLUE);
+                blue.move(0, -blueMoveSpeed);
+            }
+        }
+        if (x == 1 && y == 0) {
+            if (((blue.getX() / 10) + (blueMoveSpeed / 10)) > 19) return;
+            Rectangle toPos = field[blue.getX() / 10 + blueMoveSpeed / 10][blue.getY() / 10];
+            if (toPos.getColor() != Color.YELLOW) {
+                field[blue.getX()/10][blue.getY()/10].setColor(Color.BLUE);
+                blue.move(blueMoveSpeed, 0);
+            }
+        }
+        if (x == 2 && y == 0) {
+            if (((blue.getX() / 10) - (blueMoveSpeed / 10)) < 0)  return;
+            Rectangle toPos = field[blue.getX() / 10 - blueMoveSpeed / 10][blue.getY() / 10];
+            if (toPos.getColor() != Color.YELLOW) {
+                field[blue.getX()/10][blue.getY()/10].setColor(Color.BLUE);
+                blue.move(-blueMoveSpeed, 0);
+            }
+        }
     }
     
     public void moveRedTimer(final int redMoveSpeeed) {
