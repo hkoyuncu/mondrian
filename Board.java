@@ -26,7 +26,7 @@ public class Board extends JPanel {
         feld.addPlayer(new Circle(90, 90, 10, Color.red));
         
         addKeyListener(new KeyHandler());
-        timer = new Timer(400, new ActionHandler());
+        timer = new Timer(3000, new ActionHandler());
         timer.start();
 
         setFocusable(true);
@@ -49,15 +49,19 @@ public class Board extends JPanel {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         feld.move(-BLUEMOVESPEED, 0);
+                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_RIGHT:
                         feld.move(BLUEMOVESPEED, 0);
+                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_UP:
                         feld.move(0, -BLUEMOVESPEED);
+                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_DOWN:
                         feld.move(0, BLUEMOVESPEED);
+                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                 }
             }
@@ -79,7 +83,7 @@ public class Board extends JPanel {
 
     @Override
     public void keyReleased(KeyEvent e) { }
-    
+
     }
     
     private class ActionHandler implements ActionListener {

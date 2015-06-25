@@ -91,20 +91,17 @@ public class Gamefield {
         return red;
     }
     
+    // solte ok sein
     public void moveBlueTimer(final int blueMoveSpeed) {
         int x = (int) (Math.random() * 3);
         int y = (int) (Math.random() * 3);
         
-        if (x == 0 && y == 0) {
-            blue.move(0, 0);
-        }
         if (x == 0 && y == 1) {
             if (((blue.getY() / 10) + (blueMoveSpeed / 10)) > 19) return;
             Rectangle toPos = field[blue.getX() / 10][blue.getY() / 10 + blueMoveSpeed / 10];
             if (toPos.getColor() != Color.YELLOW) {
                 field[blue.getX()/10][blue.getY()/10].setColor(Color.BLUE);
                 blue.move(0, blueMoveSpeed);
-                
             }
         }
         if (x == 0 && y == 2) {
@@ -133,14 +130,15 @@ public class Gamefield {
         }
     }
     
+    // es fehlt eine richutng ;  welche fehlt ist noch unklar
     public void moveRedTimer(final int redMoveSpeeed) {
-        int x = (int) (Math.random() * 3);
-        int y = (int) (Math.random() * 3);
+        int x = (int) (Math.random() * 4);
+        int y = (int) (Math.random() * 4);
         
         if (x == 0 && y == 0) {      
             red.move(0, 0);
         }
-        if (x == 0 && y == 1) {  // nach unten bewegen
+        if (x == 0 && y == 1) {                         // nach unten bewegen
             if (((red.getY()/10) + (redMoveSpeeed/10)) > 19 ) return;
             Rectangle toPos = field[red.getX()/10][red.getY()/10 + redMoveSpeeed/10];
             if (toPos.getColor() == Color.BLUE) {
