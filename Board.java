@@ -10,9 +10,11 @@ public class Board extends JPanel {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
      
-    private final int MOVESPEED = 10;
+    private final int BLUEMOVESPEED = 10;
+    private final int REDMOVESPEED = 2 * BLUEMOVESPEED;
     
     private boolean control;
+    private Timer timer;
 
     public Board() {
         super();
@@ -24,6 +26,8 @@ public class Board extends JPanel {
         feld.addPlayer(new Circle(90, 90, 10, Color.red));
         
         addKeyListener(new KeyHandler());
+        timer = new Timer(4000, new ActionHandler());
+        timer.start();
 
         setFocusable(true);
         setPreferredSize(new Dimension(200, 200));
@@ -44,25 +48,27 @@ public class Board extends JPanel {
             if (control) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        feld.move(-MOVESPEED, 0);
+                        feld.move(-BLUEMOVESPEED, 0);
                         break;
                     case KeyEvent.VK_RIGHT:
-                        feld.move(MOVESPEED, 0);
+                        feld.move(BLUEMOVESPEED, 0);
                         break;
                     case KeyEvent.VK_UP:
-                        feld.move(0, -MOVESPEED);
+                        feld.move(0, -BLUEMOVESPEED);
                         break;
                     case KeyEvent.VK_DOWN:
-                        feld.move(0, MOVESPEED);
+                        feld.move(0, BLUEMOVESPEED);
                         break;
                 }
             }
 
             if (feld.checkWin()) {
+                timer.stop();
                 JOptionPane.showMessageDialog(null, "Sie haben das Spiel gewonnen!", "Gratulation", JOptionPane.INFORMATION_MESSAGE);
                 control = false;
             }
-            if (feld.checkCollision()) {
+            if (feld.checkCollision(REDMOVESPEED)) {
+                timer.stop();
                 JOptionPane.showMessageDialog(null, "Sie haben das Spiel verloren!", "Verloren", JOptionPane.INFORMATION_MESSAGE);
                 control = false;
             }
@@ -74,5 +80,15 @@ public class Board extends JPanel {
     @Override
     public void keyReleased(KeyEvent e) { }
     
+    }
+    
+    private class ActionHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //feld.moveBlueTimer(BLUEMOVESPEED);
+            feld.moveRedTimer(REDMOVESPEED);
+            repaint();
+        }
     }
 }

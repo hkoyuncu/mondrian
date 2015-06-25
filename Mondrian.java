@@ -5,7 +5,7 @@ public class Mondrian extends JFrame {
     
     public Mondrian() {
         add(new Board());
-
+        
         setResizable(false);
         pack();
 
@@ -18,7 +18,10 @@ public class Mondrian extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Mondrian window = new Mondrian();
-                window.setLocationRelativeTo(null);
+                
+                //window.setLocationRelativeTo(null);
+                window.setLocation(1680, 20);
+                
                 window.setVisible(true);
             }
         });

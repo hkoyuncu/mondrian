@@ -15,6 +15,11 @@ public class Circle {
         this.color = c;
     }
     
+    public void move(int x, int y) {
+        this.x += x;
+        this.y += y;
+    }
+    
     public void drawCircle(Graphics g) {
         g.setColor(color);
         g.fillOval(x, y, size, size);
@@ -29,4 +34,8 @@ public class Circle {
     public void setY(int y) { this.y = y; }
 
     public Color getColor() { return color; }
+    
+    public String toString() {
+        return "x: " + x +  "    y: " + y;
+    }
 }
