@@ -15,15 +15,13 @@ public class Mondrian extends JFrame {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Mondrian window = new Mondrian();
-                
-                //window.setLocationRelativeTo(null);
-                window.setLocation(1680, 20);
-                
-                window.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            Mondrian window = new Mondrian();
+            
+            //window.setLocationRelativeTo(null);
+            window.setLocation(1680, 20);
+            
+            window.setVisible(true);
         });
     }
 }

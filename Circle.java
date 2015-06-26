@@ -16,8 +16,8 @@ public class Circle {
     }
     
     public void move(int x, int y) {
-        this.x += x;
-        this.y += y;
+        this.x += (x*10);
+        this.y += (y*10);
     }
     
     public void drawCircle(Graphics g) {
@@ -25,9 +25,9 @@ public class Circle {
         g.fillOval(x, y, size, size);
     }
 
-    public int getX() { return x; }
+    public int getX() { return x/10; }
     
-    public int getY() { return y; }
+    public int getY() { return y/10; }
 
     public void setX(int x) { this.x = x; }
 
@@ -35,7 +35,7 @@ public class Circle {
 
     public Color getColor() { return color; }
     
-    public String toString() {
-        return "x: " + x +  "    y: " + y;
-    }
+    @Override
+    public String toString() { return "x: " + x +  "    y: " + y; }
+    
 }

@@ -32,9 +32,9 @@ public class Rectangle {
 
     public void setPresent(int present) { this.present = present; }
     
-    public int getX() { return x; }
+    public int getX() { return x/10; }
 
-    public int getY() { return y; }
+    public int getY() { return y/10; }
     
     public void setX(int x) { this.x = x; } 
     

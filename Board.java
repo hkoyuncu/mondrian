@@ -26,8 +26,8 @@ public class Board extends JPanel {
         feld.addPlayer(new Circle(90, 90, 10, Color.red));
         
         addKeyListener(new KeyHandler());
-        timer = new Timer(3000, new ActionHandler());
-        timer.start();
+        timer = new Timer(2000, new ActionHandler());
+        //timer.start();
 
         setFocusable(true);
         setPreferredSize(new Dimension(200, 200));
@@ -49,33 +49,32 @@ public class Board extends JPanel {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         feld.move(-BLUEMOVESPEED, 0);
-                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_RIGHT:
                         feld.move(BLUEMOVESPEED, 0);
-                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_UP:
                         feld.move(0, -BLUEMOVESPEED);
-                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                     case KeyEvent.VK_DOWN:
                         feld.move(0, BLUEMOVESPEED);
-                        feld.moveRedTimer(REDMOVESPEED);
                         break;
                 }
+                //feld.moveRedTimer(REDMOVESPEED);
             }
-
+            
             if (feld.checkWin()) {
                 timer.stop();
                 JOptionPane.showMessageDialog(null, "Sie haben das Spiel gewonnen!", "Gratulation", JOptionPane.INFORMATION_MESSAGE);
                 control = false;
             }
+
             if (feld.checkCollision(REDMOVESPEED)) {
                 timer.stop();
                 JOptionPane.showMessageDialog(null, "Sie haben das Spiel verloren!", "Verloren", JOptionPane.INFORMATION_MESSAGE);
                 control = false;
             }
+
         }
 
     @Override
