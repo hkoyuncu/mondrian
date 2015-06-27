@@ -148,7 +148,6 @@ public class GamefieldBackup {
                         }
                     }
                 }
-                
                 if (end.getX() > red.getX()) {
                     System.out.println("6");
                     for (int i = start.getX()/10 - 1; i < end.getX()/10; i++) {

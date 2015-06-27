@@ -26,8 +26,8 @@ public class Board extends JPanel {
         feld.addPlayer(new Circle(90, 90, 10, Color.red));
         
         addKeyListener(new KeyHandler());
-        timer = new Timer(2000, new ActionHandler());
-        //timer.start();
+        timer = new Timer(1000, new ActionHandler());
+        timer.start();
 
         setFocusable(true);
         setPreferredSize(new Dimension(200, 200));

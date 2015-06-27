@@ -5,19 +5,20 @@ import java.util.*;
 public class Gamefield {
     
     private Circle blue, red;  
-    private Rectangle[][] field;
-    private Color[] colors = { Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.LIGHT_GRAY };
+    private final Rectangle[][] field;
+    
+    private final Color[] colors = { Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.LIGHT_GRAY };
     private boolean first;
   
-    
     private ArrayList<Rectangle> area;
+    
     private boolean moving;
     
     // ok
     public Gamefield() {
         field = new Rectangle[20][20];
         first = false;
-        area = new ArrayList<Rectangle>();
+        area = new ArrayList<>();
         moving = false;
     }
     
@@ -112,27 +113,37 @@ public class Gamefield {
             area.add(field[xNew][yNew]);
             moving = false;
             
-            fill();
-            //print(area);
+            fill(true);
             area.clear();
         }
     }
     
-    // ist ok
     private void fill() {
+        if (area.isEmpty()) {
+            return;
+        }
+
+        setPresent(area);
+        Rectangle s = area.get(0);
+        Rectangle e = area.get(area.size() - 1);
+    }
+    
+    
+    // fail
+    private void fill(boolean lel) {
         if (area.isEmpty() || area.size() < 2) {
             return;
         }
         // kleiner fehler
-        //area = optimize(area);
+        area = optimize(area);
 
         Rectangle s = area.get(0);
         Rectangle e = area.get(area.size() - 1);
 
-        setPresent();
+        setPresent(area);
 
         // linke seite vom roten Punkt
-        if (s.getX() < red.getX() && e.getX() < red.getX() || s.getY() < red.getY() && e.getY() > red.getY()) {
+        if (s.getX() < red.getX() && e.getX() < red.getX() && s.getY() < red.getY() && e.getY() > red.getY()) {
             System.err.println("links vom roten punkt");
             for (int i = s.getY(); i < e.getY(); i++) {
                 int lineCounter = 1;
@@ -156,8 +167,8 @@ public class Gamefield {
         // rechte seite vom roten punkt
         else if (s.getX() > red.getX() && e.getX() > red.getX() || s.getY() < red.getY() && e.getY() > red.getY()) {
             System.err.println("rechts vom roten punkt");
-            for (int i = 19; i > e.getY(); i--) {
-                int lineCounter = 1;
+            for (int i = s.getX(); i < e.getX(); i++) {
+                int lineCounter = s.getY();
 
                 Rectangle r = field[i][lineCounter];
                 boolean run = true;
@@ -169,7 +180,7 @@ public class Gamefield {
                     if (run) {
                         r.setColor(Color.YELLOW);
                         r.setPresent(1);
-                        lineCounter++;
+                        lineCounter--;
                         r = field[i][lineCounter];
                     }
                 }
@@ -178,6 +189,30 @@ public class Gamefield {
         // untere seite vom roten punkt
         else if (s.getX() < red.getX() && e.getX() > red.getX() && s.getY() > red.getY() && e.getY() > red.getY()) {
             System.err.println("unterhalb vom roten punkt");
+            
+            // gerade linie
+            if (s.getY() == e.getY()) {
+                for (int i = s.getX(); i < e.getX(); i++) {
+                    int lineCounter = s.getY() + 1;
+
+                    Rectangle r = field[i][lineCounter];
+                    boolean run = true;
+
+                    while (run) {
+                        if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
+                            run = false;
+                        }
+                        if (run) {
+                            r.setColor(Color.YELLOW);
+                            r.setPresent(1);
+                            lineCounter++;
+                            r = field[i][lineCounter];
+                        }
+                    }
+                }
+                return;
+            }
+            
             for (int i = s.getY(); i < e.getY(); i++) {
                 int lineCounter = 1;
 
@@ -199,10 +234,9 @@ public class Gamefield {
         }
         else {
             System.err.println("oberhalb vom roten punkt");
-            for (int i = s.getY(); i < e.getY(); i++) {
+            for (int i = s.getX(); i < e.getX(); i++) {
                 int lineCounter = 1;
-
-                Rectangle r = field[lineCounter][i];
+                Rectangle r = field[i][lineCounter];
                 boolean run = true;
 
                 while (run) {
@@ -213,7 +247,7 @@ public class Gamefield {
                         r.setColor(Color.YELLOW);
                         r.setPresent(1);
                         lineCounter++;
-                        r = field[lineCounter][i];
+                        r = field[i][lineCounter];
                     }
                 }
             }
@@ -224,19 +258,34 @@ public class Gamefield {
     private ArrayList<Rectangle> optimize(ArrayList<Rectangle> a) {
         Rectangle start = a.get(0);
         Rectangle end = a.get(a.size() - 1);
-        if (start.getY() > end.getY()) {
-            ArrayList<Rectangle> opt = new ArrayList<Rectangle>();
+        if (start.getY() > end.getY() && start.getX() == end.getX()) {
+            System.out.println("xxxxxxxxxxxx");
+            ArrayList<Rectangle> opt = new ArrayList<>();
             for (int i = a.size() - 1; i >= 0; i--) {
-                a.get(i).setY(a.get(i).getY()*10 + 10);
-                opt.add(a.get(i));
+                if (i != a.size() - 1) {
+                    opt.add(a.get(i));
+                }
+                if (i == 0) {
+                    Rectangle lastY = area.get(0);
+                    Rectangle tmp = new Rectangle(lastY.getX()*10 - 10, lastY.getY()*10, 10, 10, lastY.getColor());
+                    
+                    opt.add(tmp);
+                }
             }
             return opt;
         }
-        if (start.getX() > end.getX()) {
-            ArrayList<Rectangle> opt = new ArrayList<Rectangle>();
-            for (int i = a.size() - 1; i >= 0; i--) {
-                a.get(i).setX(a.get(i).getX()*10 + 10);
-                opt.add(a.get(i));
+        if (start.getX() > end.getX() && start.getY() == end.getY()) {
+            System.out.println("adsfasdfas");
+            ArrayList<Rectangle> opt = new ArrayList<>();
+            for (int i = a.size() - 2; i >= 0; i--) {
+                if (i != a.size() - 1) {
+                    opt.add(a.get(i));
+                }
+                if (i == 0) {
+                    Rectangle lastX = area.get(0);
+                    Rectangle tmp = new Rectangle(lastX.getX()*10, lastX.getY()*10 - 10, 10, 10, lastX.getColor());    
+                    opt.add(tmp);
+                }
             }
             return opt;
         }
@@ -253,8 +302,8 @@ public class Gamefield {
     
     
     // ok
-    private void setPresent() {
-        area.stream().forEach((Rectangle x) -> {
+    private void setPresent(ArrayList<Rectangle> f) {
+        f.stream().forEach((Rectangle x) -> {
             x.setPresent(1);
         });
     }
