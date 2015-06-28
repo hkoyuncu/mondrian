@@ -21,7 +21,10 @@ Ziel des Spiels ist es, mehr als 80% der Spielfeldfläche auszufüllen.
 Das Spiel wird aufgeteilt in eine (einfache) Grundaufgabe und mehrere
 Bonusaufgaben. Insgesamt sind 100 Punkte erreichbar.
 
-Grundaufgabe: (51 Punkte)
+
+
+Grundaufgabe: (51 Punkte)  ======>  zum Teil erledigt (Flächen füllen fehlt)
+--------------------------
 Erweitern Sie JPanel um eine eigene paintComponent(Graphics g) Methode, mit der
 Sie das Spiel zeichnen und zeigen Sie das Spielfeld in einem JFrame an.
 
@@ -44,7 +47,8 @@ Tipp: verwenden Sie für die logische Speicherung des Spielfelds eine eigene
 Datenstruktur auf Basis eines Rasters und nicht dieselbe Datenstruktur wie für
 die Darstellung des Spielfelds.
 
-Bonusaufgabe: statischer Computergegner (5 Punkte)
+Bonusaufgabe: statischer Computergegner (5 Punkte)      ===> erledigt
+---------------------------------------------------
 In die Mitte des Spielfelds wird ein roter Ball gesetzt, der den Computergegner
 darstellt (Durchmesser 3 Pixel). Liegt das Zentrum des roten Balls auf der
 gleichen Stelle wie das Zentrum des blauen Balls oder auf einer Linie, die
@@ -52,17 +56,20 @@ gerade gezogen wird, ist das Spiel verloren. So lange sich der Computergegner
 nicht bewegt, reicht es aus, auf Kollisionen zwischen blauem und rotem Ball zu
 testen, da die gezeichnete Linie sicher erst nach dem blauen Ball berührt wird.
 
-Bonusaufgabe: richtige Fläche ausfüllen (5 Punkte)
+Bonusaufgabe: richtige Fläche ausfüllen (5 Punkte)      ====>  fehlt
+---------------------------------------------------
 Beim Ausfüllen einer neuen Fläche wird jene Teilfläche gewählt, in der sich der
 Computergegner aktuell nicht befindet.
 Sind mehr als 80% der Gesamtfläche ausgefüllt, ist das Spiel gewonnen und eine
 entsprechende Nachricht wird angezeigt.
 
-Bonusaufgabe: korrekte Bewegung (5 Punkte)
+Bonusaufgabe: korrekte Bewegung (5 Punkte)              ===> Code vorhanden und funktionstüchtig: erledigt
+-------------------------------------------
 Nur auf nicht ausgefüllten Flächen zieht der blaue Ball eine Linie hinter sich
 her. Der blaue Ball kann das Spielfeld nicht verlassen.
 
-Bonusaufgabe: Schleifen in Linien eliminieren (15 Punkte)
+Bonusaufgabe: Schleifen in Linien eliminieren (15 Punkte)    ====>   fehlt
+------------------------------------------------------------
 Kreuzt der blaue Ball eine gerade gezeichnete Linie, so gibt es einen
 Kreuzungspunkt von vier Linienteilen, die wir Einfahrt alt, Ausfahrt alt,
 Einfahrt neu und Ausfahrt neu (in der Reihenfolge ihrer Entstehung) nennen.
@@ -71,7 +78,8 @@ Ausfahrt alt und Einfahrt neu entfernt werden, da sich der blaue Ball sonst
 jederzeit auf eine sichere Insel retten könnte, womit das Spiel an Reiz
 verlieren würde.
 
-Bonusaufgabe: SpielerIn und Computergegner bewegen (10 Punkte)
+Bonusaufgabe: SpielerIn und Computergegner bewegen (10 Punkte)     =====> erledigt
+---------------------------------------------------------------
 Mittels Timer wird in regelmäßigen Abständen ein ActionListener aufgerufen, der
 sowohl den blauen Ball (falls gerade eine Pfeiltaste gedrückt wird) als auch den
 roten Ball (jedenfalls) zu bewegen versucht. Beide Bälle müssen bei der Bewegung
@@ -82,7 +90,8 @@ kann sich nur waagrecht oder senkrecht bewegen; bei Berührung des roten Balls
 mit dem blauen Ball bzw einer Linie, die gerade gezogen wird, ist das Spiel
 verloren. Erreicht der rote Ball eine Grenze, prallt er von ihr wieder ab.
 
-Bonusaufgabe: zufälliger Computergegner (5 Punkte)
+Bonusaufgabe: zufälliger Computergegner (5 Punkte)          ===> zum Teil erledigt
+----------------------------------------------------
 Der rote Ball ändert mit Hilfe einer zufällig generierten Zahl manchmal seine
 Richtung und steuert auf den blauen Ball zu.
 Bonusaufgabe: optischer Aufputz und Kollisionen (4 Punkte)
