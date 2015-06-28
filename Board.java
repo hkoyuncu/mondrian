@@ -55,7 +55,7 @@ public class Board extends JPanel {
         addKeyListener(new KeyHandler());
         // neues Timer-Objekt erzeugen, der alle 500ms den roten und blauen 
         // Ball im Spielfeld bewegt.
-        timer = new Timer(200, new ActionHandler());
+        timer = new Timer(400, new ActionHandler());
         timer.start();
         // Fokus wird auf das Fenster gelegt, damit die Steuerung möglich ist
         setFocusable(true);

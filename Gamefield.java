@@ -2,6 +2,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Diese Klasse übernimmt die gesamte Spiellogik. Sie stellt Methoden
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  * @version 2015.06.28
  */
 public class Gamefield {
+    
+    private int scoreCounter;
     
     // blauer Kreis-Objekt und roter Kreis-Objekt
     private Circle blue, red;
@@ -45,6 +48,8 @@ public class Gamefield {
         // der blaue Punkt bewegt sich zu Beginn nicht auf weißem Feld,
         // daher wird die Variable auf false gesetzt
         moving = false;
+        
+        scoreCounter = 0;
     }
     
     /**
@@ -137,10 +142,10 @@ public class Gamefield {
      */
     private void fillBorder() {
         for (int i = 0; i < field.length; i++) {
-            field[0][i].setColor(Color.BLUE);  field[0][i].setPresent(1);
-            field[i][0].setColor(Color.BLUE);  field[i][0].setPresent(1);
-            field[field.length - 1][i].setColor(Color.BLUE); field[field.length - 1][i].setPresent(1);
-            field[i][field.length - 1].setColor(Color.BLUE); field[i][field.length - 1].setPresent(1);
+            field[0][i].setColor(Color.BLUE);  field[0][i].setPresent(1); scoreCounter++;
+            field[i][0].setColor(Color.BLUE);  field[i][0].setPresent(1); scoreCounter++;
+            field[field.length - 1][i].setColor(Color.BLUE); field[field.length - 1][i].setPresent(1); scoreCounter++;
+            field[i][field.length - 1].setColor(Color.BLUE); field[i][field.length - 1].setPresent(1); scoreCounter++;
         }
     }
 
@@ -161,7 +166,7 @@ public class Gamefield {
         x /= 10;
         y /= 10;
         
-                // nun wird überprüft, ob sich der blaue Punkt im
+        // nun wird überprüft, ob sich der blaue Punkt im
         // gültigen Breich des Spielfeldes befindet   -> für x-Koordinaten
         // wenn nein, dann wird er nicht bewegt
         if (blue.getX() + x < 0 || blue.getX() + x > 19) {
@@ -173,10 +178,9 @@ public class Gamefield {
         if (blue.getY() + y < 0 || blue.getY() + y > 19) {
             return;
         }
-        
         // wenn der blaue Kreis sich in ein bereits markiertes Feld bewegt, dann wird dies
         // verhindert;
-        if (field[blue.getX() + x][blue.getY() + y].getColor() != Color.YELLOW) {
+        if (field[blue.getX() + x][blue.getY() + y].getPresent() <= 1) {
             // wenn das aktelle Feld, wo sich der blaue Kreis befindent gleich weiß ist, dann wird dieses
             // Feld blau gefärbt, damit hinterlässt der blaue Kreis eine blaue Linie
             if (field[blue.getX()][blue.getY()].getPresent() == 0 && field[blue.getX()][blue.getY()].getColor() != Color.BLUE) {
@@ -192,6 +196,49 @@ public class Gamefield {
         }
     }
     
+    /**
+     * 
+     * 
+     * @param x
+     * @param y
+     * @param in
+     * @param p
+     * @param get
+     * @param fill 
+     */
+    private void fillAreaRecusivly(int x, int y, int in, int p, Color get, Color fill) {
+        if (field[x][y].getPresent() == in && field[x][y].getColor() == get) {
+            field[x][y].setColor(fill);
+            field[x][y].setPresent(p);
+            scoreCounter++;
+            fillAreaRecusivly(x + 1, y, in, p, get, fill);
+            fillAreaRecusivly(x - 1, y, in, p, get, fill);
+            fillAreaRecusivly(x, y + 1, in, p, get, fill);
+            fillAreaRecusivly(x, y - 1, in, p, get, fill);
+        }
+    }
+    
+    /**
+     * 
+     * 
+     * @param x
+     * @param y
+     * @param in
+     * @param p
+     * @param fill 
+     */
+    private void fillAreaRecusivly(int x, int y, int in, int p, Color fill) {
+        if (field[x][y].getPresent() == in) {
+            field[x][y].setColor(fill);
+            field[x][y].setPresent(p);
+            scoreCounter--;
+            fillAreaRecusivly(x + 1, y, in, p, fill);
+            fillAreaRecusivly(x - 1, y, in, p, fill);
+            fillAreaRecusivly(x, y + 1, in, p, fill);
+            fillAreaRecusivly(x, y - 1, in, p, fill);
+        }
+    }
+
     /**
      *          !!    OK   !!
      * 
@@ -209,17 +256,15 @@ public class Gamefield {
 
         // blauer Kreis befindet sich am Rand, in diesem Fall nichts unternehmen
         if (field[xOld][yOld].getColor() == Color.BLUE && field[xOld][yOld].getPresent() == 1 && !moving) {
-            System.out.println("rand");
+        
         }
         // blauer Kreis fahrt auf weißem Feld, all diese Felder in die Liste hinzufügen
         else if (field[xNew][yNew].getColor() == Color.WHITE && field[xNew][yNew].getPresent() == 0 ) {
             moving = true;
-            System.out.println("new point");
             area.add(field[xOld][yOld]);
         }
         // blauer Kreis befinden sich auf aktuell auf weißem Feld und geht in ein Randfeld über
         else if (field[xOld][yOld].getPresent() == 0 && field[xNew][yNew].getPresent() == 1 && moving) {
-            System.out.println("new point & end");
             // beide Punkte in die Liste aufnehmen
             area.add(field[xOld][yOld]);
             area.add(field[xNew][yNew]);
@@ -233,149 +278,91 @@ public class Gamefield {
         }
     }
     
-    
     /**
-     *              !!!!    FAIL    !!!!
      * 
-     * Diese Methode sollte eigentlich die umschließende Fläche farbig füllen,
-     * jedoch funktioniert sie nicht richtig bis gar nicht.  :(
      * 
+     * @param s
+     * @param member 
      */
-    private void fill() {
-        if (area.isEmpty() || area.size() < 2) {
-            return;
-        }
-
-        Rectangle s = area.get(0);
-        Rectangle e = area.get(area.size() - 1);
-
-        setPresent(area);
-
-        // linke seite vom roten Punkt
-        if (s.getX() < red.getX() && e.getX() < red.getX() && s.getY() < red.getY() && e.getY() > red.getY()) {
-            System.err.println("links vom roten punkt");
-            for (int i = s.getY(); i < e.getY(); i++) {
-                int lineCounter = 1;
-
-                Rectangle r = field[lineCounter][i];
-                boolean run = true;
-
-                while (run) {
-                    if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
-                        run = false;
-                    }
-                    if (run) {
-                        r.setColor(Color.YELLOW);
-                        r.setPresent(1);
-                        lineCounter++;
-                        r = field[lineCounter][i];
-                    }
-                }
-            }
-        }
-        // rechte seite vom roten punkt
-        else if (s.getX() > red.getX() && e.getX() > red.getX() || s.getY() < red.getY() && e.getY() > red.getY()) {
-            System.err.println("rechts vom roten punkt");
-            for (int i = s.getX(); i < e.getX(); i++) {
-                int lineCounter = s.getY();
-
-                Rectangle r = field[i][lineCounter];
-                boolean run = true;
-
-                while (run) {
-                    if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
-                        run = false;
-                    }
-                    if (run) {
-                        r.setColor(Color.YELLOW);
-                        r.setPresent(1);
-                        lineCounter--;
-                        r = field[i][lineCounter];
-                    }
-                }
-            }
-        }
-        // untere seite vom roten punkt
-        else if (s.getX() < red.getX() && e.getX() > red.getX() && s.getY() > red.getY() && e.getY() > red.getY()) {
-            System.err.println("unterhalb vom roten punkt");
-            
-            // gerade linie
-            if (s.getY() == e.getY()) {
-                for (int i = s.getX(); i < e.getX(); i++) {
-                    int lineCounter = s.getY() + 1;
-
-                    Rectangle r = field[i][lineCounter];
-                    boolean run = true;
-
-                    while (run) {
-                        if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
-                            run = false;
-                        }
-                        if (run) {
-                            r.setColor(Color.YELLOW);
-                            r.setPresent(1);
-                            lineCounter++;
-                            r = field[i][lineCounter];
-                        }
-                    }
-                }
-                return;
-            }
-            
-            for (int i = s.getY(); i < e.getY(); i++) {
-                int lineCounter = 1;
-
-                Rectangle r = field[lineCounter][i];
-                boolean run = true;
-
-                while (run) {
-                    if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
-                        run = false;
-                    }
-                    if (run) {
-                        r.setColor(Color.YELLOW);
-                        r.setPresent(1);
-                        lineCounter++;
-                        r = field[lineCounter][i];
-                    }
-                }
+    private void fillTopLeft(Rectangle s, int member) {
+        if (s.getX() - 1 >= 1  && field[s.getX() - 1][s.getY()].getPresent() == 0) {  
+            fillAreaRecusivly(s.getX() - 1, s.getY(), 0, member, Color.WHITE, getRandomColor());
+            if (field[red.getX()][red.getY()].getPresent() == member) {
+                fillAreaRecusivly(s.getX() - 1, s.getY(), member, 0, Color.WHITE);
+                
+                fillBottomLeft(s, member);
             }
         }
         else {
-            System.err.println("oberhalb vom roten punkt");
-            for (int i = s.getX(); i < e.getX(); i++) {
-                int lineCounter = 1;
-                Rectangle r = field[i][lineCounter];
-                boolean run = true;
-
-                while (run) {
-                    if (r.getColor() == Color.BLUE && r.getPresent() == 1) {
-                        run = false;
-                    }
-                    if (run) {
-                        r.setColor(Color.YELLOW);
-                        r.setPresent(1);
-                        lineCounter++;
-                        r = field[i][lineCounter];
-                    }
-                }
-            }
+            fillBottomLeft(s, member);
         }
-        area.clear();
     }
-    
     
     /**
-     * FÜR DEBUG
      * 
-     * @param area 
+     * 
+     * @param s
+     * @param member 
      */
-    private void print(ArrayList<Rectangle> area) {
-        area.stream().forEach((Rectangle x) -> {
-            System.out.println(x);
-        });
+    private void fillBottomLeft(Rectangle s, int member) {
+        if (s.getX() + 1 <= 18 && field[s.getX() + 1][s.getY()].getPresent() == 0) {
+            fillAreaRecusivly(s.getX() + 1, s.getY(), 0, member, Color.WHITE, getRandomColor());
+            if (field[red.getX()][red.getY()].getPresent() == member) {
+                fillAreaRecusivly(s.getX() + 1, s.getY(), member, 0, Color.WHITE);
+                
+                fillTopRight(s, member);
+            }
+        }
+        else {
+            fillTopRight(s, member);
+        }
     }
     
+    /**
+     * 
+     * 
+     * @param s
+     * @param member 
+     */
+    private void fillTopRight(Rectangle s, int member) {
+        if (s.getY() - 1 >= 1 && field[s.getX()][s.getY() - 1].getPresent() == 0) {
+            fillAreaRecusivly(s.getX(), s.getY() - 1, 0, member, Color.WHITE, getRandomColor());
+            if (field[red.getX()][red.getY()].getPresent() == member) {
+                fillAreaRecusivly(s.getX(), s.getY() - 1, member, 0, Color.WHITE);
+                
+                fillBottomRight(s, member);
+            }
+        }
+        else {
+            fillBottomRight(s, member);
+        }
+    }
+    
+    /**
+     * 
+     * 
+     * @param s
+     * @param member 
+     */
+    private void fillBottomRight(Rectangle s, int member) {
+        if (s.getY() + 1 <= 18 && field[s.getX()][s.getY() + 1].getPresent() == 0) {
+            fillAreaRecusivly(s.getX(), s.getY() + 1, 0, member, Color.WHITE, getRandomColor());
+            if (field[red.getX()][red.getY()].getPresent() == member) {
+                fillAreaRecusivly(s.getX(), s.getY() + 1, member, 0, Color.WHITE);
+            }
+        }
+    }
+    
+    /**
+     * 
+     */
+    private void fill() {
+        if (area.isEmpty() || area.size() < 2) return;
+        setPresent(area);
+        int memberInt = new Random().nextInt(20 - 10 + 1) + 10;
+        fillTopLeft(area.get(0), memberInt);
+    }
+ 
     /**
      * Diese Methode setzt die gezogene Linie vom blauen Kreis
      * auf present = 1. Damit ist dieses Feld sicher und geschlossen
@@ -386,6 +373,7 @@ public class Gamefield {
     private void setPresent(ArrayList<Rectangle> line) {
         line.stream().forEach((Rectangle r) -> {
             r.setPresent(1);
+            scoreCounter++;
         });
     }
     
@@ -576,7 +564,7 @@ public class Gamefield {
     }
 
     /**
-     *          !!!! IMPLEMENTIERUNG FEHLT  !!!
+     *          !!!   OK    !!!
      * 
      * 
      * Diese Methode liefert eine Zufallsfarbe aus den auswählbaren Farben
@@ -598,20 +586,9 @@ public class Gamefield {
      * @return      true wenn der Spieler gewonnen hat; ansonsten false
      */
     public boolean checkWin() {
-        int count = 0;
-        final int max = 320;  // sind 80% des feldes
-        // durch das Feld-Array iterrieren und die blauen und gelben
-        // Felder abzählen
-        for (Rectangle[] ra : field) {
-            for (Rectangle r : ra) {
-                if (r.getColor() == Color.BLUE || r.getColor() == Color.YELLOW) {
-                    count++;
-                }
-            }
-        }
-        // wurden 320 oder mehr Felder gezählt, dann wird true zurückgegeben;
-        // ansonsten false
-        return count >= max;
+
+ 
+        return scoreCounter >= 320;
     }
     
     /**
@@ -629,10 +606,6 @@ public class Gamefield {
         // Zentren der beiden Kreise auf Gleichheit prüfen
         // wenn sie gleich sind, dann besteht ein Kontakt und der Spieler hat verloren
         if (blue.getX() == red.getX() && blue.getY() == red.getY()) {
-            return true;
-        }
-        // roten Punkt auf Kontakt mit der gezogenen blauen Linie überprüfen
-        if (field[red.getX()-1][red.getY()].getPresent() == 0 && field[red.getX()-1][red.getY()-1].getColor() == Color.BLUE) {
             return true;
         }
         // roten Punkt auf Kontakt mit der gezogenen blauen Linie überprüfen
