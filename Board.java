@@ -17,16 +17,7 @@ public class Board extends JPanel {
     // Objekt der Klasse Gamefield definieren
     // diese Klasse verwaltet die gesamte Logik zum Spiel
     private final Gamefield feld;
-    
-    // Breite und Höhe vom 
-    private final int GAME_WIDTH = 200;
-    private final int GAME_HEIGHT = 200;
-    
-    // Bewegungsgeschwindigkeit vom blauen Punkt festlegen
-    private final int BLUEMOVESPEED = 10;
-    // die Bewegungsgeschwindigkeit vom roten Punkt ist das Doppelte vom Blauen
-    private final int REDMOVESPEED = 2 * BLUEMOVESPEED;
-   
+
     // Timer Objekt definieren, um den roten und blauen Punkt 
     // in bestimmten Zeitintervallen zu bewegen
     private final Timer timer;
@@ -49,7 +40,7 @@ public class Board extends JPanel {
         feld.addPlayer(new Circle(0, 0, 10, Color.ORANGE));
         // roten (orangenen) Punkt erzeugen, der den Feind darstellt und mittig
         // im Spielfeld setzen
-        feld.addPlayer(new Circle(GAME_WIDTH/2 - 10, GAME_HEIGHT/2 - 10 , 10, Color.RED));
+        feld.addPlayer(new Circle(Settings.GAME_WIDTH/2 - 10, Settings.GAME_HEIGHT/2 - Settings.ONE_FRAME , Settings.ONE_FRAME, Color.RED));
         // damit sich der blaue Ball auf Tastendruck bewegen kann, wird 
         // ein KeyListener auf das Spiel gesetzt
         addKeyListener(new KeyHandler());
@@ -60,7 +51,7 @@ public class Board extends JPanel {
         // Fokus wird auf das Fenster gelegt, damit die Steuerung möglich ist
         setFocusable(true);
         // Größe vom Fenster festlegen
-        setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+        setPreferredSize(new Dimension(Settings.GAME_WIDTH, Settings.GAME_HEIGHT));
         
     }
     
@@ -104,22 +95,22 @@ public class Board extends JPanel {
                     // wenn die linke-Pfeiltaste gedrückt wurde...
                     case KeyEvent.VK_LEFT:
                         // blauer Punkt fährt im Spiel nach links 
-                        feld.move(-BLUEMOVESPEED, 0);
+                        feld.move(-Settings.BLUE_MOVESPEED, 0);
                         break;
                     // wenn die rechte-Pfeiltaste gedrückt wurde...
                     case KeyEvent.VK_RIGHT:
                         // blauer Punkt fährt im Spiel nach rechts 
-                        feld.move(BLUEMOVESPEED, 0);
+                        feld.move(Settings.BLUE_MOVESPEED, 0);
                         break;
                     // wenn die obere-Pfeiltaste gedrückt wurde...
                     case KeyEvent.VK_UP:
                         // blauer Punkt fährt im Spiel nach oben 
-                        feld.move(0, -BLUEMOVESPEED);
+                        feld.move(0, -Settings.BLUE_MOVESPEED);
                         break;
                     // wenn die untere-Pfeiltaste gedrückt wurde...
                     case KeyEvent.VK_DOWN:
                         // blauer Punkt fährt im Spiel nach unten 
-                        feld.move(0, BLUEMOVESPEED);
+                        feld.move(0, Settings.BLUE_MOVESPEED);
                         break;
                 }
                 // nun wird überprüft, ob der Spieler mehr als 80% des Spielfeldes
@@ -134,7 +125,7 @@ public class Board extends JPanel {
                     inGame = false;
                 }
                 // wenn der rote Ball den blauen Ball bzw. seine unvollständige Linie berührt hat...
-                if (feld.checkCollision(REDMOVESPEED)) {
+                if (feld.checkCollision()) {
                     // dann hat der Spieler verloren und eine entsprechende Meldung
                     // wird ausgegeben; Timer wird gestopt
                     timer.stop();
@@ -172,9 +163,9 @@ public class Board extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             // blauen Punkt bewegen
-            //feld.moveBlueTimer(BLUEMOVESPEED);
+            //feld.moveBlueTimer();
             // roten Punkt bewegen
-            feld.moveRedTimer(REDMOVESPEED);
+            feld.moveRedTimer();
         }
     }
 }

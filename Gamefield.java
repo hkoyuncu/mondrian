@@ -39,7 +39,7 @@ public class Gamefield {
      */
     public Gamefield() {
         // das Spielfeld wird in ein 20*20 Array aufgeteilt
-        field = new Rectangle[20][20];
+        field = new Rectangle[Settings.GAME_SIZE][Settings.GAME_SIZE];
         // nachdem der Rand blau gefärbt wurde, erst dann wird die 
         // Kontrollvariable auf true gesetzt; zu Beginn ist sie auf false
         first = false;
@@ -48,7 +48,7 @@ public class Gamefield {
         // der blaue Punkt bewegt sich zu Beginn nicht auf weißem Feld,
         // daher wird die Variable auf false gesetzt
         moving = false;
-        
+        // diese Variable speicher den aktuellen Scoretable vom Spieler
         scoreCounter = 0;
     }
     
@@ -104,10 +104,9 @@ public class Gamefield {
      * das present Bit auf 0
      */
     public void init() { 
-        int mult = 10;
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j <field[i].length; j++) {            
-                field[i][j] = new Rectangle(i*mult, j*mult, 10, 10, Color.WHITE);
+                field[i][j] = new Rectangle(i*Settings.ONE_FRAME, j*Settings.ONE_FRAME, Settings.ONE_FRAME, Settings.ONE_FRAME, Color.WHITE);
                 field[i][j].setPresent(0);
             }
         }
@@ -163,8 +162,8 @@ public class Gamefield {
      */
     public void move(int x, int y) {
         // x und y durch 10 dividieren
-        x /= 10;
-        y /= 10;
+        x /= Settings.ONE_FRAME;
+        y /= Settings.ONE_FRAME;
         
         // nun wird überprüft, ob sich der blaue Punkt im
         // gültigen Breich des Spielfeldes befindet   -> für x-Koordinaten
@@ -387,7 +386,7 @@ public class Gamefield {
      * 
      * @param blueMoveSpeed             Geschwindigkeit vom blauen Kreis
      */
-    public void moveBlueTimer(int blueMoveSpeed) {
+    public void moveBlueTimer() {
         // hier werden Zufallszahlen für die x und y Koordinaten erzeugt
         // un je nach Kombination fährt der blaue Kreis in eine 
         // bestimmte Richtung
@@ -396,19 +395,19 @@ public class Gamefield {
         
         // nach unten bewegen
         if (x == 0 && y == 1) {    
-            move(0, blueMoveSpeed);
+            move(0, Settings.BLUE_MOVESPEED);
         }
         // nach oben bewegen
         if (x == 0 && y == 2) {
-            move(0, -blueMoveSpeed);
+            move(0, -Settings.BLUE_MOVESPEED);
         }
         // nach links bewegen
         if (x == 1 && y == 0) {
-            move(blueMoveSpeed, 0);
+            move(Settings.BLUE_MOVESPEED, 0);
         }
         // nach rechts bewegen
         if (x == 2 && y == 0) {
-            move(-blueMoveSpeed, 0);
+            move(-Settings.BLUE_MOVESPEED, 0);
         }
     }
     
@@ -423,143 +422,44 @@ public class Gamefield {
      * 
      * @param redMoveSpeeed         Geschwindigkeit vom roten Kreis
      */
-    public void moveRedTimer(int redMoveSpeeed) {
+    public void moveRedTimer() {
         // hier werden Zufallszahlen für die x und y Koordinaten erzeugt
         // un je nach Kombination fährt der rote Kreis in eine 
         // bestimmte Richtung
         int x = (int) (Math.random() * 3);
         int y = (int) (Math.random() * 3);
-        // Geschwindigkeit durch 10 rechnen, damit wieder der Zugriff auf das
-        // Feld-Array funktioniert
-        redMoveSpeeed /= 10;
-        
-        // roten Kreis  nach unten bewegen
+
+        // nach rechts bewegen
         if (x == 0 && y == 1) {
-            if (red.getY() + redMoveSpeeed > 19 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX()][red.getY() + redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX()][red.getY() + redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(0, redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(0, redMoveSpeeed);  
+            
         }
-        // roten Kreis nach oben bewegen
-        if (x == 0 && y == 2) {
-            if (red.getY() - redMoveSpeeed < 1 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX()][red.getY() - redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX()][red.getY() - redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(0, -redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(0, -redMoveSpeeed);
+        // nach links bewegen
+        else if (x == 0 && y == 2) {
+            
         }
-        // roten kreis nach rechts bewegen
-        if (x == 1 && y == 0) {
-            if (red.getX()+ redMoveSpeeed > 19 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() + redMoveSpeeed - i][red.getY()];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() + redMoveSpeeed][red.getY()];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(redMoveSpeeed/2, 0);  
-                return ; 
-            }
-            red.move(redMoveSpeeed, 0);
+        // nach unten bewegen
+        else if (x == 1 && y == 1) {
+            
         }
-        // roten Kreis nach rechts unten bewegen
-        if (x == 1 && y == 1) {
-            if (red.getX() + redMoveSpeeed > 19 || red.getY() + redMoveSpeeed > 19 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() + redMoveSpeeed - i][red.getY() + redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() + redMoveSpeeed][red.getY() + redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(redMoveSpeeed/2, redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(redMoveSpeeed, redMoveSpeeed); 
+        // nach oben bewegen
+        else if (x == 1 && y == 2) {
+            
         }
-        // roten Kreis nach rechts oben
-        if (x == 1 && y == 2) {
-            if (red.getX() + redMoveSpeeed> 19 || red.getY() - redMoveSpeeed < 1 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() + redMoveSpeeed - i][red.getY() - redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() + redMoveSpeeed][red.getY() - redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(redMoveSpeeed/2, -redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(redMoveSpeeed, -redMoveSpeeed);
+        // nach links oben bewegen
+        else if (x == 2 && y == 0) {
+            
         }
-        // roten Kreis nach links bewegen
-        if (x == 2 && y == 0) {
-            if (red.getX() - redMoveSpeeed < 1 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() - redMoveSpeeed - i][red.getY()];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() - redMoveSpeeed][red.getY()];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(-redMoveSpeeed/2, 0);  
-                return ; 
-            }
-            red.move(-redMoveSpeeed, 0);
+        // nach rechts oben bewegen 
+        else if (x == 2 && y == 1) {
+            
         }
-        // roten Kreis nach links unten bewegen
-        if (x == 2 && y == 1) {
-            if (red.getX() - redMoveSpeeed < 1  || red.getY() + redMoveSpeeed > 19 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() - redMoveSpeeed - i][red.getY() + redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() - redMoveSpeeed][red.getY() + redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(-redMoveSpeeed/2, redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(-redMoveSpeeed, redMoveSpeeed);
+        // nach rechts unten bewegen
+        else if (x == 2 && y == 2) {
+            
         }
-        // roten Kreis nach links oben
-        if (x == 2 && y == 2) {
-            if (red.getX() - redMoveSpeeed < 1  || red.getY() - redMoveSpeeed < 1 ) return;
-            for (int i = 0; i < 2; i ++) {
-                Rectangle tmp = field[red.getX() - redMoveSpeeed - i][red.getY() - redMoveSpeeed - i];
-                if (tmp.getPresent() == 1) {
-                    return;
-                }
-            }
-            Rectangle toPos = field[red.getX() - redMoveSpeeed][red.getY() - redMoveSpeeed];
-            if (toPos.getColor() == Color.BLUE) {
-                red.move(-redMoveSpeeed/2, -redMoveSpeeed/2);  
-                return ; 
-            }
-            red.move(-redMoveSpeeed, -redMoveSpeeed);
+        // nach links unten bewegen
+        else if (x == 1 && y == 0) {
+            
         }
     }
 
@@ -587,7 +487,6 @@ public class Gamefield {
      */
     public boolean checkWin() {
 
- 
         return scoreCounter >= 320;
     }
     
@@ -602,7 +501,7 @@ public class Gamefield {
      * @param redMoveSpeed      Geschwindigkeit vom roten Kreis
      * @return                  true, wenn Kontakt ermittelt, ansonsten false
      */
-    public boolean checkCollision(final int redMoveSpeed) {
+    public boolean checkCollision() {
         // Zentren der beiden Kreise auf Gleichheit prüfen
         // wenn sie gleich sind, dann besteht ein Kontakt und der Spieler hat verloren
         if (blue.getX() == red.getX() && blue.getY() == red.getY()) {
