@@ -674,10 +674,10 @@ public class Gamefield {
      * @param line      Liste mit Rechtecken, die den Pfad darstellen
      */
     private void setPresent(List<Rectangle> line) {
-        line.stream().forEach((Rectangle r) -> {
+        for (Rectangle r : line) {
             r.setPresent(1);
             scoreCounter++;
-        });
+        }
     }
     
     
