@@ -24,11 +24,11 @@ public class Circle {
     private final Color color;
     
     /**
-     * Default-Konstruktor wird überschrieben.
+     * Default-Konstruktor wird ueberschrieben.
      * 
      * @param x         x-Koordinate vom Kreis
      * @param y         y-Koordinate vom Kreis
-     * @param size      Größe vom Kreis
+     * @param size      Groesse vom Kreis
      * @param c         Farbe vom Kreis
      */
     public Circle(int x, int y, int size, Color c) {
@@ -43,15 +43,15 @@ public class Circle {
      * im Frame.
      * 
      * Hier werden die Koordinaten jeweils mit 10 multipliziert, damit wir
-     * von der Array-Ebene wieder zurück in die Pixel-Ebene kommen und
+     * von der Array-Ebene wieder zurueck in die Pixel-Ebene kommen und
      * die Bewegung vom Kreis richtig dargestellt wird.
      * 
      * @param x     wieweit in x-Richtung gegangen werden soll
      * @param y     wieweit in y-Richtung gegangen werden soll
      */
     public void move(int x, int y) {
-        this.x += (x*10);
-        this.y += (y*10);
+        this.x += (x*Settings.ONE_FRAME);
+        this.y += (y*Settings.ONE_FRAME);
     }
     
     /**
@@ -66,9 +66,9 @@ public class Circle {
         g.fillOval(x, y, size, size);
     }
     
-    public int getX() { return x/10; }
+    public int getX() { return x/Settings.ONE_FRAME; }
     
-    public int getY() { return y/10; }
+    public int getY() { return y/Settings.ONE_FRAME; }
 
     public void setX(int x) { this.x = x; }
 
@@ -76,6 +76,4 @@ public class Circle {
 
     public Color getColor() { return color; }
     
-    @Override
-    public String toString() { return "x: " + x +  "    y: " + y; }
 }

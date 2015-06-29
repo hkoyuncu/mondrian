@@ -2,18 +2,18 @@
 import java.awt.*;
 
 /**
- * Diese Klasse repräsentiert eine Rechteck-Figur. Nachdem das gesamte Spielfeld
+ * Diese Klasse repraesentiert eine Rechteck-Figur. Nachdem das gesamte Spielfeld
  * nach einem Raster(2-dimensionales Array) aufgebaut ist, wird zu jedem Punkt
  * eine Rechteck-Figur gespeichert.
  * 
  * Die Variable "present" speichert, ob ein Rechteck vollkommen ist. Ein Rechteck
  * ist vollkommen, wenn der blaue Ball eine Linie von einem Rand zu einem anderen
  * Rand zieht. Dann ist es vollkommen (present = 1) und der rote Ball prallt nun
- * von dieser Linie ab, falls es die Linie berührt. 
+ * von dieser Linie ab, falls es die Linie beruehrt. 
  * 
- * Während der blaue Ball die Linie zieht, ist das Rechteck nicht vollkommen
- * (present = 0) und diese Eigenschaft dient zur Kollissionsüberprüfung, weil das
- * Spiel verloren ist, wenn der rote Ball die Linie berührt bevor der blaue Ball
+ * Waehrend der blaue Ball die Linie zieht, ist das Rechteck nicht vollkommen
+ * (present = 0) und diese Eigenschaft dient zur Kollissionsueberpruefung, weil das
+ * Spiel verloren ist, wenn der rote Ball die Linie beruehrt bevor der blaue Ball
  * ein sicheres Ende (blaues Rand) erreicht hat.
  * 
  * 
@@ -33,11 +33,11 @@ public class Rectangle {
     private int present;
 
     /**
-     * Default Konstruktor wird überschrieben.
+     * Default Konstruktor wird ueberschrieben.
      * 
      * @param x         x-Koordinare vom Rechteck
      * @param y         y-Koordinare vom Rechteck
-     * @param w         Länge vom Rechteck
+     * @param w         Laenge vom Rechteck
      * @param h         Breite vom Rechteck
      * @param c         Farbe vom Rechteck
      */
@@ -70,15 +70,12 @@ public class Rectangle {
 
     public void setPresent(int present) { this.present = present; }
     
-    public int getX() { return x/10; }
+    public int getX() { return x/Settings.ONE_FRAME; }
 
-    public int getY() { return y/10; }
+    public int getY() { return y/Settings.ONE_FRAME; }
     
     public void setX(int x) { this.x = x; } 
     
     public void setY(int y) { this.y = y; } 
-    
-    @Override
-    public String toString() { return "X: " + x + "  Y: " + y  + "   p: " + present; }
- 
+
 }

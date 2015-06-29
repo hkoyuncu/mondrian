@@ -3,8 +3,8 @@ import javax.swing.*;
 
 /**
  * Diese Klasse startet die Applikation (das Spiel)  und kann
- * über den Schließ-Button wieder geschlossen werden. Mit Hilfe
- * der Pfeiltasten lässt sich der blaue Kreis steuren.
+ * ueber den Schliess-Button wieder geschlossen werden. Mit Hilfe
+ * der Pfeiltasten laesst sich der blaue Kreis steuren.
  * 
  * @author PK-Team, Koyuncu Harun, Valentin Zambelli
  * @version 2015.06.27
@@ -12,18 +12,18 @@ import javax.swing.*;
 public class Mondrian extends JFrame {
     
     /**
-     * Default-Konstruktor wird überschrieben
+     * Default-Konstruktor wird ueberschrieben
      */
     public Mondrian() {
         // das Board im Frame plazieren
         add(new Board());
-        // die Fenstergröße lässt sich nicht mehr ändern
+        // die Fenstergroesse laesst sich nicht mehr aendern
         setResizable(false);
         // Platziereung des Boards im Frame optimieren
         pack();
         // Titel vom Fenster setzen
         setTitle("Mondrian");
-        // Aktion festlgene, die beim Drücken des Close-Buttons passieren soll
+        // Aktion festlgene, die beim Druecken des Close-Buttons passieren soll
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
