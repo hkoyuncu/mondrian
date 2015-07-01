@@ -48,7 +48,7 @@ public class Board extends JPanel {
         // neues Timer-Objekt erzeugen, der alle 500ms den roten und blauen 
         // Ball im Spielfeld bewegt.
         timer = new Timer(Settings.RED_MOVESPEED_TIMER, new ActionHandler());
-        //timer.start();
+        timer.start();
         // Fokus wird auf das Fenster gelegt, damit die Steuerung moeglich ist
         setFocusable(true);
         // Groesse vom Fenster festlegen
