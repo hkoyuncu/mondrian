@@ -24,8 +24,8 @@ public final class Settings {
     final static int WIN_SCORE = 320;
     
     // Breite und Hoehe vom Fenster festlegen
-    final static int GAME_WIDTH = 200;
-    final static int GAME_HEIGHT = 200;
+    final static int GAME_WIDTH = 400;
+    final static int GAME_HEIGHT = 400;
     
     // Breite und Hoehe von einem Feld auf der
     // Spielerflaeche festlegen

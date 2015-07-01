@@ -112,7 +112,7 @@ public class Gamefield {
      */
     private void init() { 
         for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j <field[i].length; j++) {            
+            for (int j = 0; j < field[i].length; j++) {            
                 field[i][j] = new Rectangle(i*Settings.ONE_FRAME, j*Settings.ONE_FRAME, Settings.ONE_FRAME, Settings.ONE_FRAME, Color.WHITE);
                 field[i][j].setPresent(0);
             }
@@ -464,7 +464,7 @@ public class Gamefield {
 
         // blauer Kreis befindet sich am Rand, in diesem Fall nichts unternehmen
         if (field[xOld][yOld].getColor() == Color.BLUE && field[xOld][yOld].getPresent() == 1 && !moving) {
-        
+               // blauer Kreis bewegt sich am sicheren Rand
         }
         // blauer Kreis fahrt auf weissem Feld, all diese Felder in die Liste hinzufuegen
         else if (field[xNew][yNew].getColor() == Color.WHITE && field[xNew][yNew].getPresent() == 0 ) {
